@@ -16,7 +16,7 @@ class _MainAppState extends State<MainApp> {
   String inputvalue = "";
   String calValue = "";
   String operator = "";
-
+  
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size.width / 5;
@@ -114,6 +114,9 @@ class _MainAppState extends State<MainApp> {
         if (text == "clear") {
           setState(() {
             inputvalue = "";
+            operator="";
+            inputvalue="";
+
           });
         } else if (text == "+" || text == "-" || text == "*" || text == "/") {
           setState(() {
@@ -123,6 +126,9 @@ class _MainAppState extends State<MainApp> {
           });
         } else if (text == "=") {
           setState(() {
+            if(calValue.isEmpty|| inputvalue.isEmpty||inputvalue=="error"){
+              return;
+            }
             double cal = double.parse(calValue);
             double inp = double.parse(inputvalue);
             if (operator == "+") {
@@ -132,9 +138,24 @@ class _MainAppState extends State<MainApp> {
             } else if (operator == "*") {
               inputvalue = (cal * inp).toString();
             } else if (operator == "/") {
+              if(inp!=0){
               inputvalue = (cal / inp).toString();
-            }
-          });
+              }
+              else{
+                inputvalue="error";
+                calValue="";
+                operator="";
+                return;
+
+              }
+           
+          }
+          operator="";
+          }
+           
+            
+
+          );
         } else {
           setState(() {
             inputvalue = inputvalue + text;
